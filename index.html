@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Be+Vietnam+Pro:wght@300;500;700&display=swap" rel="stylesheet">
+
+<title>111 ngày</title>
+
+<style>
+body{
+    margin:0;
+    background:linear-gradient(to bottom,#000,#1a001a);
+    color:white;
+    font-family:'Be Vietnam Pro',sans-serif;
+    overflow:hidden;
+}
+
+.page{
+    position:absolute;
+    width:100%;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    opacity:0;
+    transition:1s;
+}
+
+.active{opacity:1;}
+
+.title{
+    font-family:'Great Vibes',cursive;
+    font-size:30px;
+    margin-bottom:20px;
+}
+
+img{
+    width:80vw;
+    max-width:350px;
+    border-radius:15px;
+    margin-bottom:15px;
+}
+
+.counter{
+    font-size:28px;
+}
+
+.tap{
+    position:absolute;
+    bottom:30px;
+    opacity:0.5;
+}
+
+/* 🌸 hoa */
+.petal{
+    position:fixed;
+    width:8px;
+    height:8px;
+    background:#ffb6c1;
+    border-radius:50%;
+    opacity:0.7;
+    animation:fall linear infinite;
+}
+
+@keyframes fall{
+    to{transform:translateY(100vh);}
+}
+
+/* 💌 thiệp */
+.envelope{
+    font-size:50px;
+    cursor:pointer;
+}
+
+.card{
+    display:none;
+    width:80vw;
+    max-width:500px;
+    height:250px;
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    color:black;
+    display:flex;
+}
+
+.card-left,.card-right{
+    width:50%;
+    padding:10px;
+}
+
+.card-left img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.card-right{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" src="assets/music.mp3" loop></audio>
+
+<!-- p0 -->
+<div class="page active" id="p0">
+    <div class="title">haluuu ạaa:></div>
+</div>
+
+<!-- p1 -->
+<div class="page" id="p1">
+    <div>chúng mình đã iuuu</div>
+    <div class="counter" id="count">0 ngày</div>
+</div>
+
+<!-- p2 -->
+<div class="page" id="p2">
+<img src="assets/img1.jpg">
+<div>bức ảnh chung đầu tiên cụa bọn mìnhh</div>
+</div>
+
+<!-- p3 -->
+<div class="page" id="p3">
+<img src="assets/img2.jpg">
+<div>nắm tayy nèee</div>
+</div>
+
+<!-- p4 -->
+<div class="page" id="p4">
+<img src="assets/img3.jpg">
+<div>phô tô búttt</div>
+</div>
+
+<!-- p5 -->
+<div class="page" id="p5">
+<img src="assets/img4.jpg">
+<div>hai đoáaa hoaa nàa</div>
+</div>
+
+<!-- p6 -->
+<div class="page" id="p6">
+<img src="assets/img5.jpg">
+<div>lần đầuu tụi mình đi chơiii</div>
+</div>
+
+<!-- p7 -->
+<div class="page" id="p7">
+<img src="assets/img6.jpg">
+<img src="assets/img7.jpg">
+<div>đẹpp quu trr</div>
+</div>
+
+<!-- p8 -->
+<div class="page" id="p8">
+<img src="assets/img8.jpg">
+<div>tuii thítt tấm nàyy nhứtt</div>
+</div>
+
+<!-- p9 -->
+<div class="page" id="p9">
+
+<div class="envelope" onclick="openCard()">💌</div>
+
+<div class="card" id="cardBox">
+<div class="card-left">
+<img src="assets/img9.jpg">
+</div>
+
+<div class="card-right" id="letterText">
+</div>
+</div>
+
+</div>
+
+<!-- p10 -->
+<div class="page" id="p10">
+<div>bumm hết ròiiiii</div>
+</div>
+
+<script>
+// 🎵 nhạc
+let music=false;
+document.body.onclick=()=>{
+    if(!music){
+        document.getElementById("music").play();
+        music=true;
+    }
+    next();
+};
+
+// chuyển trang
+let p=0;
+function next(){
+    document.getElementById("p"+p).classList.remove("active");
+    p++;
+    if(p<=10){
+        document.getElementById("p"+p).classList.add("active");
+    }
+}
+
+// đếm ngày
+let c=0;
+let el=document.getElementById("count");
+let run=setInterval(()=>{
+    c++;
+    el.innerText=c+" ngày";
+    if(c>=111) clearInterval(run);
+},30);
+
+// 🌸 hoa
+for(let i=0;i<40;i++){
+    let p=document.createElement("div");
+    p.className="petal";
+    p.style.left=Math.random()*100+"vw";
+    p.style.animationDuration=(5+Math.random()*5)+"s";
+    document.body.appendChild(p);
+}
+
+// 💌 mở thiệp
+function openCard(){
+    document.querySelector(".envelope").style.display="none";
+    document.getElementById("cardBox").style.display="flex";
+    typeText();
+}
+
+let text="(m viết nội dung ở đây)";
+function typeText(){
+    let i=0;
+    let box=document.getElementById("letterText");
+    let t=setInterval(()=>{
+        box.innerHTML+=text[i];
+        i++;
+        if(i>=text.length) clearInterval(t);
+    },30);
+}
+</script>
+
+</body>
+</html>
