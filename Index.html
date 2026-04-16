@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Be+Vietnam+Pro:wght@300;500;700&display=swap" rel="stylesheet">
+
+<title>111 ngày của chúng mình</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    background:black;
+    color:white;
+    font-family:'Be Vietnam Pro',sans-serif;
+    overflow:hidden;
+}
+
+/* PAGE */
+.page{
+    position:absolute;
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    opacity:0;
+    transition:1s;
+}
+
+.active{opacity:1;}
+
+/* INTRO */
+.intro-text{
+    font-size:24px;
+    opacity:0;
+    animation:fade 3s forwards;
+}
+
+@keyframes fade{
+    to{opacity:1;}
+}
+
+/* TITLE */
+.title{
+    font-family:'Great Vibes',cursive;
+    font-size:38px;
+    color:#ff6b81;
+}
+
+/* TIME */
+.time{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+.box{
+    border:1px solid white;
+    padding:10px;
+}
+
+/* STORY IMAGE */
+.story{
+    position:relative;
+}
+
+.story img{
+    width:80vw;
+    max-width:350px;
+    border-radius:15px;
+    animation:zoom 6s linear;
+}
+
+@keyframes zoom{
+    from{transform:scale(1);}
+    to{transform:scale(1.1);}
+}
+
+.caption{
+    margin-top:10px;
+    font-size:16px;
+    color:#ccc;
+}
+
+/* CARD */
+.card{
+    font-size:20px;
+    text-align:center;
+    padding:20px;
+}
+
+/* TAP */
+.tap{
+    position:absolute;
+    bottom:30px;
+    font-size:14px;
+    opacity:0.6;
+    animation:blink 1.5s infinite;
+}
+
+@keyframes blink{
+    50%{opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" src="assets/music.mp3" loop></audio>
+
+<!-- INTRO -->
+<div class="page active" id="p0">
+    <div class="intro-text">Có một câu chuyện…</div>
+</div>
+
+<!-- PAGE 1 -->
+<div class="page" id="p1">
+    <div class="title">25/12/2025</div>
+    <div class="time">
+        <div class="box" id="d">0d</div>
+        <div class="box" id="h">0h</div>
+        <div class="box" id="m">0m</div>
+        <div class="box" id="s">0s</div>
+    </div>
+    <div class="tap">chạm để tiếp tục</div>
+</div>
+
+<!-- PAGE 2 STORY -->
+<div class="page" id="p2">
+    <div class="story">
+        <img id="storyImg" src="">
+        <div class="caption" id="caption"></div>
+    </div>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page" id="p3">
+    <div class="card" id="text"></div>
+</div>
+
+<script>
+let started=false;
+document.body.onclick=()=>{
+    if(!started){
+        document.getElementById("music").play();
+        started=true;
+    }
+    nextPage();
+};
+
+let page=0;
+function nextPage(){
+    document.getElementById("p"+page).classList.remove("active");
+    page++;
+    if(page>3)return;
+    document.getElementById("p"+page).classList.add("active");
+
+    if(page==2) startStory();
+    if(page==3) typeText();
+}
+
+// TIME
+let start=new Date("2025-12-25");
+setInterval(()=>{
+    let now=new Date();
+    let diff=now-start;
+
+    let d=Math.floor(diff/86400000);
+    let h=Math.floor(diff/3600000)%24;
+    let m=Math.floor(diff/60000)%60;
+    let s=Math.floor(diff/1000)%60;
+
+    document.getElementById("d").innerText=d+"d";
+    document.getElementById("h").innerText=h+"h";
+    document.getElementById("m").innerText=m+"m";
+    document.getElementById("s").innerText=s+"s";
+},1000);
+
+// STORY
+let imgs=[
+"assets/img1.jpg",
+"assets/img2.jpg",
+"assets/img3.jpg",
+"assets/img4.jpg",
+"assets/img5.jpg"
+];
+
+let texts=[
+"Ngày đầu tiên...",
+"Những lúc bên nhau",
+"Những lần đi chơi",
+"Những khoảnh khắc đáng nhớ",
+"Và bây giờ..."
+];
+
+let i=0;
+function startStory(){
+    showImg();
+}
+
+function showImg(){
+    if(i>=imgs.length)return;
+    let img=document.getElementById("storyImg");
+    let cap=document.getElementById("caption");
+
+    img.src=imgs[i];
+    cap.innerText=texts[i];
+
+    i++;
+    setTimeout(showImg,4000);
+}
+
+// TYPE TEXT
+let finalText="111 ngày chưa phải là dài... nhưng đủ để t biết t yêu m nhiều đến mức nào. ❤️";
+
+function typeText(){
+    let j=0;
+    let box=document.getElementById("text");
+
+    let t=setInterval(()=>{
+        box.innerHTML+=finalText[j];
+        j++;
+        if(j>=finalText.length) clearInterval(t);
+    },40);
+}
+</script>
+
+</body>
+</html>
